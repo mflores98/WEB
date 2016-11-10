@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Zona</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+
+    <div class="ShadowBox whiteback RedBorderedBox ui-fluid">
+        <div class="Container100 Responsive100">
+            <div class="ContainerIndent">
+
+                <h:form id="zonaForm">
+                    <p:messages id="messages" autoUpdate="false" />
+
+                    <h:panelGrid id="pgDatos" columns="3">
+
+                        <p:outputLabel for="nombreZ" value="Nombre: "></p:outputLabel>
+                        <p:inputText id="nombreZ" label="Nombre:" value="#{zonaUI.zonaHelper.ctoZona.zona}" required="true"
+                                     requiredMessage="Requiere valor"
+                                     /> 
+                        <p:message for="nombreZ"/>
+                    </h:panelGrid>
+
+                    <p:panelGrid id="pgBot" columns="4">
+                        <p:commandButton value="Registrar" actionListener="#{zonaUI.registrarZonaConfirm()}" ajax="true" update=":dataF:dca, pgDatos" disabled="#{zonaUI.btnRegistrar}" >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Modificar" actionListener="#{zonaUI.editarZona()}" ajax="true" update=":dataF:dca, pgBot, pgDatos" disabled="#{zonaUI.btnModificar}"
+                                         >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Eliminar" action="#{zonaUI.elimanar()}" ajax="true" update=":dataF:dca, pgBot, pgDatos" disabled="#{zonaUI.btnEliminar}"
+                                         >
+                            <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                        <p:commandButton value="Cancelar" action="#{zonaUI.cancelar()}" ajax="false" update="@form" disabled="#{zonaUI.btnCancelar}"
+                                         immediate="true"
+                                         >
+
+
+                        </p:commandButton>
+
+
+                    </p:panelGrid> 
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+
+                <h:form id="dataF">
+                    <p:dataTable id="dca" var="catz" value="#{zonaUI.listCtoZonas}" selectionMode="single" selection="#{zonaUI.zonaHelper.ctoZona}" rowKey="#{catz.idCtoZona}" 
+                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" emptyMessage="No empleados found with given criteria" reflow="true">
+                        <f:facet name="header">
+                            Listado de Catalogo Zonas
+                        </f:facet>
+                        <p:ajax event="rowSelect" update=":zonaForm, :zonaForm:pgBot " process="@this" listener="#{zonaUI.stateChange(behavior)}"/>
+
+                        <p:column headerText="Id" sortBy="#{catz.idCtoZona}" footerText="Id">
+                            <h:outputText value="#{catz.idCtoZona}" />
+                        </p:column>
+                        <p:column headerText="Nombre" sortBy="#{catz.zona}" footerText="Id">
+                            <h:outputText value="#{catz.zona}" />
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </div>
+</html>

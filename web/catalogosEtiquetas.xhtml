@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <title>Catalogos etiquetas2</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="ShadowBox TexAlCenter whiteback BlueBorderedBox">
+                    <h1 class="BigTopic">Catalogo </h1>
+                    <span class="gray">Sección de adminstración de Etiquetas</span>
+                </div>
+                <div class="ShadowBox whiteback RedBorderedBox ui-fluid">
+                    <div class="Container100 Responsive100">
+                        <div class="ContainerIndent">
+
+
+                            <h:form id="formCat">
+                                <p:messages id="messages" autoUpdate="false" />
+
+                                <h:panelGrid id="pgD" columns="1"> 
+                                    <p:outputLabel for="txtv" value="ValorTag "></p:outputLabel>
+                                    <p:inputText id="txtv" label="Valor Tag:" value="#{etiquetasUI.etiquetaHelper.currentEtiqueta.valorTag}"/>                            
+
+                                    <p:outputLabel for="txtn" value="Nombre"></p:outputLabel>
+                                    <p:inputText  id="txtn" label="Nombre:" value="#{etiquetasUI.etiquetaHelper.currentEtiqueta.nombre}" required="true"/>    
+                                    <p:message for="txtn"/>
+
+                                    <p:outputLabel for="txtlat" value="Latitud "></p:outputLabel>
+                                    <p:inputText id="txtlat" label="Latitud:" value="#{etiquetasUI.etiquetaHelper.currentEtiqueta.latitud}" disabled="true"/> 
+
+                                    <p:outputLabel for="txtln" value="Longitud "></p:outputLabel>                                 
+                                    <p:inputText id="txtln" label="Longitud:" value="#{etiquetasUI.etiquetaHelper.currentEtiqueta.longitud}" disabled="true"/> 
+
+                                    <p:outputLabel for="txtal" value="Altitud "></p:outputLabel>
+                                    <p:inputText id="txtal" label="Altitud:" value="#{etiquetasUI.etiquetaHelper.currentEtiqueta.altitud}" disabled="true"/> 
+
+                                    <p:outputLabel for="servicio" value="Servicio: "></p:outputLabel>
+                                    <p:selectOneMenu id="servicio" value="#{etiquetasUI.etiquetaHelper.servicioIDint}" label="Servicios"
+                                                     filter="true" filterMatchMode="contains" required="true"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                                        <f:selectItems value="#{etiquetasUI.listaServicio}" var="serv" itemValue="#{serv.idCtoServicio}"
+                                                       itemLabel="#{serv.servicio}"/>
+                                    </p:selectOneMenu>
+                                    <p:message for="servicio"/>
+
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="4" id="pgBotE">
+
+                                    <p:commandButton value="Agregar" actionListener="#{etiquetasUI.registrar()}" ajax="true" update=":formtab:dca, pgD"
+                                                     disabled="#{etiquetasUI.btnRegistrar}"
+                                                     >
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton>  
+                                    <p:commandButton value="Modificar" actionListener="#{etiquetasUI.modificarEtiqueta()}"  
+                                                     ajax="true" update="formtab:dca, pgD, pgBotE"
+                                                     disabled="#{etiquetasUI.btnModificar}">
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton> 
+
+                                    <p:commandButton value="Eliminar" action="#{etiquetasUI.eliminar()}"  
+                                                     ajax="true" update=":formtab:dca, pgD, pgBotE" 
+                                                     disabled="#{etiquetasUI.btnEliminar}" immediate="true">
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton>  
+
+
+                                    <p:commandButton  value="Cancelar" actionListener="#{etiquetasUI.cancelar()}" ajax="true" update="formtab:dca, pgD, pgBotE" 
+                                                      disabled="#{etiquetasUI.btnCancelar}" immediate="true">
+                                    </p:commandButton>
+                                </h:panelGrid>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+
+                <h:form enctype="multipart/form-data">
+                    <h:inputFile value="#{etiquetasUI.etiquetaHelper.image}"/><br/>
+                    <h:commandButton value="Upload File" action="#{etiquetasUI.etiquetaHelper.doUpload()}"/>
+                </h:form>
+
+                <h:form id="formtab">
+                    <p:dataTable id="dca" var="etis" value="#{etiquetasUI.listEtiquetas}" selectionMode="single" selection="#{etiquetasUI.etiquetaHelper.currentEtiqueta}" rowKey="#{etis.idEtiqueta}" 
+                                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" emptyMessage="No empleados found with given criteria" reflow="true">
+                        <f:facet name="header">
+                            Listado de Catalogo Etiquetas
+                        </f:facet>
+                        <p:ajax event="rowSelect" update=":formCat" process="@this" listener="#{etiquetasUI.stateChange(behavior)}"/>
+
+                        <p:column headerText="Id" sortBy="#{etis.idEtiqueta}" footerText="Id">
+                            <h:outputText value="#{etis.idEtiqueta}" />
+                        </p:column>
+                        <p:column headerText="Nombre" sortBy="#{etis.nombre}" footerText="nombre">
+                            <h:outputText value="#{etis.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="valorTag" sortBy="#{etis.valorTag}" footerText="valorTag">
+                            <h:outputText value="#{etis.valorTag}" />
+                        </p:column>
+                        <p:column headerText="latitud" sortBy="#{etis.latitud}" footerText="latitud">
+                            <h:outputText value="#{etis.latitud}" />
+                        </p:column>
+                        <p:column headerText="longitud" sortBy="#{etis.longitud}" footerText="longitud">
+                            <h:outputText value="#{etis.longitud}" />
+                        </p:column>
+                        <p:column headerText="servicio" sortBy="#{etis.fkCtoServicio.servicio}" footerText="servicio">
+                            <h:outputText value="#{etis.fkCtoServicio.servicio}" />
+                        </p:column>
+
+
+
+
+
+                    </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+
+
+
+    </body>
+</html>

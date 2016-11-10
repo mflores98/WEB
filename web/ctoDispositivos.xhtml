@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <h:head>
+        <title>Contactos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+        <div class="Container100">
+
+            <div class="ContainerIndent">
+                <div class="ShadowBox TexAlCenter whiteback BlueBorderedBox">
+                    <h1 class="BigTopic">Catalogo Dispositivos</h1>
+                    <span class="gray">Sección de adminstración de Dispositivos</span>
+                </div>
+                <div class="ShadowBox whiteback RedBorderedBox ui-fluid">
+                    <div class="Container100 Responsive100">
+                        <div class="ContainerIndent">
+                            <h:form id="deviceForm">
+                                <p:messages id="messages" autoUpdate="false" />
+
+                                <h:panelGrid columns="1" id="pgFor">
+
+                                    <h:outputLabel for="imei"  value="IMEI:"/> 
+                                    <p:inputText  id="imei" label="IMEI" value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.imei}" required="true"></p:inputText>
+                                    <p:message for="imei"/>
+
+                                    <h:outputLabel for="marca" value="Marca" />
+                                    <p:inputText id="marca" label="Marca" value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.marca}" required="true"></p:inputText>
+                                    <p:message for="marca"/>
+
+                                    <h:outputLabel for="modelo" value="Modelo" />
+                                    <p:inputText id="modelo" label="Modelo" value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.modelo}" required="true"></p:inputText>
+                                    <p:message for="modelo"/>
+
+                                    <p:outputLabel value="Status"></p:outputLabel>
+                                    <p:selectBooleanCheckbox value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.status}"></p:selectBooleanCheckbox>
+
+
+                                    <h:outputLabel for="deviceid" value="DeviceId" />
+                                    <p:inputText id="deviceid" label="DeviceId" value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.deviceID}" required="true"></p:inputText>
+                                    <p:message for="deviceid"/>
+
+                                    <h:outputLabel for="tipoequipo" value="TipoEquipo" />
+                                    <p:inputText id="tipoequipo" label="TipoEquipo" value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.tipoEquipo}" required="true"></p:inputText>
+                                    <p:message for="tipoequipo"/>
+
+
+                                    <h:outputLabel for="txt3" value="Servicio: "    />
+
+                                    <p:selectOneMenu  id="txt3" immediate="true" value="#{dispositivosUI.dispositivosHelper.ctoDispositivos.servicio.idCtoServicio}" required="true"
+                                                      filter="true" filterMatchMode="contains"
+                                                      >
+                                        <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                                        <f:selectItems value="#{dispositivosUI.servicios}" var="entidad" itemValue="#{entidad.idCtoServicio}" itemLabel="#{entidad.servicio}"/>
+                                    </p:selectOneMenu> 
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="4">
+
+
+                                    <p:commandButton value="Registrar" actionListener="#{dispositivosUI.registrar}" ajax="true" update="deviceForm, :formList" disabled="#{dispositivosUI.btnRegistrar}" >
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+
+                                    <p:commandButton value="Editar" actionListener="#{dispositivosUI.modificar()}" ajax="true" update="deviceForm, :formList" disabled="#{dispositivosUI.btnModificar}" >
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+
+                                    <p:commandButton value="Eliminar" action="#{dispositivosUI.eliminar()}" ajax="true" update="deviceForm, :formList" disabled="#{dispositivosUI.btnEliminar}" >
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+
+                                    <p:commandButton  value="Cancelar"  action="#{dispositivosUI.cancelar()}" ajax="false" disabled="#{dispositivosUI.btnCancelar}" update="@form" immediate="true"> 
+                                    </p:commandButton>       
+
+                                </h:panelGrid>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                <h:form id="formList">
+                    <div class="ContainerIndent">
+                        <p:dataTable   id="singleDTB" var="disp" value="#{dispositivosUI.dispositivos}" selectionMode="single" selection="#{dispositivosUI.dispositivosHelper.ctoDispositivos}" rowKey="#{disp.idDispositivo}"
+                                       rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                       rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true">
+                            <f:facet name="header">
+                                Listado de dispositivos
+                            </f:facet>
+
+                            <p:ajax event="rowSelect" update=":deviceForm" process="@this" listener="#{dispositivosUI.stateChange(behavior)}"/>
+
+                            <p:column headerText="IMEI" sortBy="#{disp.imei}" footerText="IMEI">
+                                <h:outputText value="#{disp.imei}" />
+                            </p:column>
+
+                            <p:column headerText="MARCA" sortBy="#{disp.marca}" footerText="Marca">
+                                <h:outputText value="#{disp.marca}" />
+                            </p:column>
+
+                            <p:column headerText="MODELO" sortBy="#{disp.modelo}" footerText="Modelo">
+                                <h:outputText value="#{disp.modelo}" />
+                            </p:column>
+                            <p:column headerText="Status" sortBy="#{disp.status}" footerText="Status">
+                                <h:outputText value="#{disp.status}" />
+                            </p:column>
+                            <p:column headerText="DeviceId" sortBy="#{disp.deviceID}" footerText="DeviceId">
+                                <h:outputText value="#{disp.deviceID}" />
+                            </p:column>
+                            <p:column headerText="TipoEquipo" sortBy="#{disp.tipoEquipo}" footerText="TipoEquipo">
+                                <h:outputText value="#{disp.tipoEquipo}" />
+                            </p:column>
+                            <p:column headerText="Servicio" sortBy="#{disp.servicio.servicio}" footerText="Servicio">
+                                <h:outputText value="#{disp.servicio.servicio}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+
+        </div> 
+
+    </body>
+</html>
