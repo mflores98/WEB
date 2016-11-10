@@ -82,7 +82,7 @@ and open the template in the editor.
                                         <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
                                     </p:commandButton>
 
-                                    <p:commandButton  value="Cancelar"  action="#{dispositivosUI.cancelar()}" ajax="false" disabled="#{dispositivosUI.btnCancelar}" update="@form" immediate="true"> 
+                                    <p:commandButton  value="Cancelar"  actionListener="#{dispositivosUI.cancelar()}" ajax="true" disabled="#{dispositivosUI.btnCancelar}" update="@form" immediate="true"> 
                                     </p:commandButton>       
 
                                 </h:panelGrid>
