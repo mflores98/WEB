@@ -6,6 +6,7 @@
 package com.mosis.ui;
 
 import com.mosis.business.integration.ServiceFacadeLocator;
+import com.mosis.entity.CtoServicio;
 import com.mosis.entity.HallazgoGeneral;
 import java.io.Serializable;
 import java.util.List;
@@ -20,12 +21,35 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class HallazgoGeneralUI implements Serializable {
 
-    public HallazgoGeneralUI() {
+    private int idServicioSelect;
+    private HallazgoGeneral hallazgoGeneral;
 
+    public HallazgoGeneralUI() {
+        hallazgoGeneral = new HallazgoGeneral();
     }
 
-    public List<HallazgoGeneral> getListaHallazgoGeneral() {
-        return ServiceFacadeLocator.getInstanceHallazgo().getListaHallazgoGeneral();
+    public List<HallazgoGeneral> getListaHallazgoGeneralByIdServicio() {
+        return ServiceFacadeLocator.getInstanceHallazgo().getListaHallazgoGeneralByIdServicio(idServicioSelect);
+    }
+
+    public List<CtoServicio> getListaServicios() {
+        return ServiceFacadeLocator.getInstanceServicio().getListCtoServicios();
+    }
+
+    public int getIdServicioSelect() {
+        return idServicioSelect;
+    }
+
+    public void setIdServicioSelect(int idServicioSelect) {
+        this.idServicioSelect = idServicioSelect;
+    }
+
+    public HallazgoGeneral getHallazgoGeneral() {
+        return hallazgoGeneral;
+    }
+
+    public void setHallazgoGeneral(HallazgoGeneral hallazgoGeneral) {
+        this.hallazgoGeneral = hallazgoGeneral;
     }
 
 }

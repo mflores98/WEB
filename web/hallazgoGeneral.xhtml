@@ -24,46 +24,47 @@ and open the template in the editor.
             </f:facet>
             <h:form>
                 <p:column headerText="selet">
-                    <h:panelGrid>
+                    <h:panelGrid columns="3">
                         <p:outputLabel for="ser" value="Servicio: " />
-                        <p:selectOneMenu id="ser" value="#{hallazgoUI.ctoServicioSelected}" label="s">
-                            <f:selectItems value="#{hallazgoUI.listaCtoServicios}" var="servicio" itemValue="#{servicio.idCtoServicio}" itemLabel="#{servicio.servicio}"/>
+                        <p:selectOneMenu id="ser" value="#{hallazgoGeneralUI.idServicioSelect}" label="s">
+                            <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                            <f:selectItems value="#{hallazgoGeneralUI.listaServicios}" var="servicio" itemValue="#{servicio.idCtoServicio}" itemLabel="#{servicio.servicio}"/>
                         </p:selectOneMenu>
                     </h:panelGrid>
                 </p:column>
-                <p:commandButton  value="Consultar hallazgo por servicio" update="datos"/>
+                <p:commandButton  value="Consultar hallazgo general por servicio" update="datos"/>
 
-                <p:dataTable id="datos" value="#{hallazgoUI.listaHallazgoByIdServicio}" var="hallazgo"
+                <p:dataTable id="datos" value="#{hallazgoGeneralUI.listaHallazgoGeneralByIdServicio}" var="hallazgoGeneral"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15" emptyMessage="Seleccione servicio a consultar hallazgos " reflow="true"
-                             selectionMode="single" selection="#{hallazgoUI.hallazgo}" rowKey="#{hallazgo.idHallazgo}"
+                             rowsPerPageTemplate="5,10,15" emptyMessage="Seleccione servicio a consultar hallazgos general" reflow="true"
+                             selectionMode="single" selection="#{hallazgoGeneralUI.hallazgoGeneral}" rowKey="#{hallazgoGeneral.idHallazgosGenerales}"
                              >
                     <f:facet name="header">
                         Hallazgos filtrados por servicio
                     </f:facet>
-                    <p:column headerText="descripcion" sortBy="#{hallazgo.descripcion}" footerText="Descripcion">
-                        <h:outputText value="#{hallazgo.descripcion}" />
+                    <p:column headerText="descripcion" sortBy="#{hallazgoGeneral.descripcion}" footerText="Descripcion">
+                        <h:outputText value="#{hallazgoGeneral.descripcion}" />
                     </p:column>
-                    <p:column headerText="Fecha" sortBy="#{hallazgo.fecha}" footerText="Fecha">
-                        <h:outputText value="#{hallazgo.fecha}" />
+                    <p:column headerText="Fecha Registro" sortBy="#{hallazgoGeneral.fechaRegistro}" footerText="FechaRegistro">
+                        <h:outputText value="#{hallazgoGeneral.fechaRegistro}" />
                     </p:column>
-                    <p:column headerText="Status" sortBy="#{hallazgo.cerrado}" footerText="Status">
-                        <h:outputText value="#{hallazgo.cerrado}"/>
-                    </p:column>
-
-                    <p:column headerText="Empleado" sortBy="#{hallazgo.fkIdEmpleado.numeroEmpleado}" footerText="Empleado">
-                        <h:outputText value="#{hallazgo.fkIdEmpleado.numeroEmpleado}" />
+                    <p:column headerText="Status" sortBy="#{hallazgoGeneral.cerrado}" footerText="Status">
+                        <h:outputText value="#{hallazgoGeneral.cerrado}"/>
                     </p:column>
 
-                    <p:column headerText="Valor Tag" sortBy="#{hallazgo.fkIdEtiqueta.valorTag}" footerText="Valor Tag">
-                        <h:outputText value="#{hallazgo.fkIdEtiqueta.valorTag}" />
-                    </p:column>
-                    <p:column headerText="Nombre Etiqueta" sortBy="#{hallazgo.fkIdEtiqueta.nombre}" footerText="Nombre">
-                        <h:outputText value="#{hallazgo.fkIdEtiqueta.nombre}"/>
+                    <p:column headerText="Empleado" sortBy="#{hallazgoGeneral.fkIdEmpleado.numeroEmpleado}" footerText="Empleado">
+                        <h:outputText value="#{hallazgoGeneral.fkIdEmpleado.numeroEmpleado}" />
                     </p:column>
 
-                    <p:column headerText="Servicio" sortBy="#{hallazgo.fkIdEtiqueta.fkCtoServicio.servicio}" footerText="Servicio">
-                        <h:outputText value="#{hallazgo.fkIdEtiqueta.fkCtoServicio.servicio}" />
+                    <p:column headerText="HorarioInicial de Ronda" sortBy="#{hallazgoGeneral.fkIdRonda.fkIdHorario.horaInicial}" footerText="HorarioInicial">
+                        <h:outputText value="#{hallazgoGeneral.fkIdRonda.fkIdHorario.horaInicial}" />
+                    </p:column>
+                    <p:column headerText="Ronda" sortBy="#{hallazgoGeneral.fkIdRonda.rombre}" footerText="Ronda">
+                        <h:outputText value="#{hallazgoGeneral.fkIdRonda.rombre}" />
+                    </p:column>  
+
+                    <p:column headerText="Servicio" sortBy="#{hallazgoGeneral.fkIdRonda.fkIdServicio.servicio}" footerText="Servicio">
+                        <h:outputText value="#{hallazgoGeneral.fkIdRonda.fkIdServicio.servicio}"/>
                     </p:column>
 
 
