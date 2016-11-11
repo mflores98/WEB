@@ -9,9 +9,12 @@ import com.mosis.business.integration.ServiceFacadeLocator;
 import com.mosis.entity.CtoServicio;
 import com.mosis.entity.Horarios;
 import com.mosis.entity.Rondas;
-import com.mosis.helper.RondasHelper;
+import com.mosis.helper.RondaHelper;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.behavior.AjaxBehavior;
@@ -22,85 +25,95 @@ import javax.faces.component.behavior.AjaxBehavior;
  */
 @ManagedBean
 @ViewScoped
-public class RondasUI implements Serializable {
+public class RondaUI implements Serializable {
 
-    private RondasHelper rondasHelper;
+    private RondaHelper rondaHelper;
+
     private boolean btnRegistrar;
     private boolean btnModificar;
     private boolean btnEliminar;
     private boolean btnCancelar;
 
-    public RondasUI() {
-        rondasHelper = new RondasHelper();
+    @PostConstruct
+    public void init() {
+        rondaHelper = new RondaHelper();
+
         //btn regis esta habilitado
         btnRegistrar = false;
         //los demas btns desabilitados
         btnModificar = true;
         btnEliminar = true;
         btnCancelar = true;
-    }
 
-    public RondasHelper getRondasHelper() {
-        return rondasHelper;
-    }
-
-    public void setRondasHelper(RondasHelper rondasHelper) {
-        this.rondasHelper = rondasHelper;
     }
 
     public void stateChange(AjaxBehavior behavior) {
-        System.out.println("kks");
         //btn regis esta inabi
         btnRegistrar = true;
         //los demas btns habilitados
         btnModificar = false;
         btnEliminar = false;
         btnCancelar = false;
-        
-        if (rondasHelper.getRondas().getIdRonda() != null) {
-            System.err.println("ronda con id: " + rondasHelper.getRondas().getIdRonda());
-            rondasHelper.setRondas(rondasHelper.getRondas());
-            rondasHelper.setFkIdServicioSelected(rondasHelper.getRondas().getFkIdServicio().getIdCtoServicio());
-            rondasHelper.setFkIdHorarioSelected(rondasHelper.getRondas().getFkIdHorario().getIdHorario());
+
+        if (rondaHelper.getRonda().getIdRonda() != null) {
+            System.err.println("ronda con id: " + rondaHelper.getRonda().getIdRonda());
+//            rondaHelper.setRonda(rondaHelper.getRonda());
+           
+            rondaHelper.setNombre(rondaHelper.getRonda().getRombre());
+            rondaHelper.setStatus(rondaHelper.getRonda().getStatus());
+            rondaHelper.setIdServicioSelect(rondaHelper.getRonda().getFkIdServicio().getIdCtoServicio());
+            rondaHelper.setIdhorarioSelect(rondaHelper.getRonda().getFkIdHorario().getIdHorario());
 
         }
 
     }
 
-    public void insertarRonda() throws Exception {
-        rondasHelper.insertarRonda();
+    public void registrar() {
+
+        try {
+            rondaHelper.registrar();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(RondaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void editarRonda() throws Exception {
+    public void modificar() {
         //btn regis esta habi
         btnRegistrar = false;
         //los demas btns desahabilitados
         btnModificar = true;
         btnEliminar = true;
         btnCancelar = true;
-        rondasHelper.editarRonda();
+        try {
+            rondaHelper.modificar();
+        } catch (Exception ex) {
+            Logger.getLogger(RondaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void eliminarRonda() throws Exception {
+    public void eliminar() {
         //btn regis esta habi
         btnRegistrar = false;
         //los demas btns desahabilitados
         btnModificar = true;
         btnEliminar = true;
         btnCancelar = true;
-        rondasHelper.eliminarRonda();
+        try {
+            rondaHelper.eliminar();
+        } catch (Exception ex) {
+            Logger.getLogger(RondaUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void cancelar() {
-
         //btn regis esta habi
         btnRegistrar = false;
         //los demas btns desahabilitados
         btnModificar = true;
         btnEliminar = true;
         btnCancelar = true;
-
-        rondasHelper.cancelar();
+        rondaHelper.cancelar();
     }
 
     public List<CtoServicio> getListCtoServicio() {
@@ -113,6 +126,20 @@ public class RondasUI implements Serializable {
 
     public List<Rondas> getListRondas() {
         return ServiceFacadeLocator.getInstanceRonda().getListRondas();
+    }
+
+    /**
+     * @return the rondaHelper
+     */
+    public RondaHelper getRondaHelper() {
+        return rondaHelper;
+    }
+
+    /**
+     * @param rondaHelper the rondaHelper to set
+     */
+    public void setRondaHelper(RondaHelper rondaHelper) {
+        this.rondaHelper = rondaHelper;
     }
 
     /**
@@ -170,5 +197,6 @@ public class RondasUI implements Serializable {
     public void setBtnCancelar(boolean btnCancelar) {
         this.btnCancelar = btnCancelar;
     }
+
 
 }
