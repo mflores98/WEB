@@ -27,7 +27,7 @@ public class HallazgoGeneralUI implements Serializable {
     public HallazgoGeneralUI() {
         hallazgoGeneral = new HallazgoGeneral();
     }
-
+    
     public List<HallazgoGeneral> getListaHallazgoGeneralByIdServicio() {
         return ServiceFacadeLocator.getInstanceHallazgo().getListaHallazgoGeneralByIdServicio(idServicioSelect);
     }

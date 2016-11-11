@@ -27,12 +27,12 @@ and open the template in the editor.
                     <h:panelGrid columns="3">
                         <p:outputLabel for="ser" value="Servicio: " />
                         <p:selectOneMenu id="ser" value="#{hallazgoGeneralUI.idServicioSelect}" label="s">
+                            <p:ajax update="datos" />
                             <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
                             <f:selectItems value="#{hallazgoGeneralUI.listaServicios}" var="servicio" itemValue="#{servicio.idCtoServicio}" itemLabel="#{servicio.servicio}"/>
                         </p:selectOneMenu>
                     </h:panelGrid>
                 </p:column>
-                <p:commandButton  value="Consultar hallazgo general por servicio" update="datos"/>
 
                 <p:dataTable id="datos" value="#{hallazgoGeneralUI.listaHallazgoGeneralByIdServicio}" var="hallazgoGeneral"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -40,7 +40,7 @@ and open the template in the editor.
                              selectionMode="single" selection="#{hallazgoGeneralUI.hallazgoGeneral}" rowKey="#{hallazgoGeneral.idHallazgosGenerales}"
                              >
                     <f:facet name="header">
-                        Hallazgos filtrados por servicio
+                        HallazgosGeneral por servicio
                     </f:facet>
                     <p:column headerText="descripcion" sortBy="#{hallazgoGeneral.descripcion}" footerText="Descripcion">
                         <h:outputText value="#{hallazgoGeneral.descripcion}" />
