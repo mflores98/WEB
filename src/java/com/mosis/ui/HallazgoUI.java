@@ -19,7 +19,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean
 @ViewScoped
-public class HallazgoUI implements Serializable{
+public class HallazgoUI implements Serializable {
 
     private Hallazgo hallazgo;
     private int ctoServicioSelected;
@@ -38,8 +38,6 @@ public class HallazgoUI implements Serializable{
 
     public List<Hallazgo> getListaHallazgoByIdServicio() {
 
-        System.out.println("Cargando datos");
-        System.out.println("id :" + ctoServicioSelected);
         return ServiceFacadeLocator.getInstanceHallazgo().hallazgosByServicio(ctoServicioSelected);
     }
 
