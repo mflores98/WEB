@@ -74,7 +74,7 @@ public class CtoTelefonoUI implements Serializable {
         btnCancelar = false;
         if (contactosHelper.getCtoTelefono().getIdCtoTelefono() != null) {
             System.out.println("esta seleccionado id: " + contactosHelper.getCtoTelefono().getIdCtoTelefono());
-
+            contactosHelper.setIdServicioSelected(contactosHelper.getCtoTelefono().getFkIdCtoServicio().getIdCtoServicio());
         } else {
             System.out.println("no seleccionado");
         }

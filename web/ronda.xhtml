@@ -49,7 +49,7 @@ and open the template in the editor.
                                 </p:selectOneMenu>
 
                                 <p:outputLabel value="Servicio"></p:outputLabel>
-                                <p:selectOneMenu id="idServicio" value="#{rondaUI.rondaHelper.idServicioSelect}" required="true" label="hr1">
+                                <p:selectOneMenu id="idServicio" value="#{rondaUI.rondaHelper.idServicioSelect}" required="true" label="hr1" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
                                     <f:selectItems value="#{rondaUI.listCtoServicio}" var="servicio" itemValue="#{servicio.idCtoServicio}" itemLabel="#{servicio.servicio}"/>
                                 </p:selectOneMenu>

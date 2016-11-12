@@ -26,12 +26,14 @@ and open the template in the editor.
                 <p:column headerText="selet">
                     <h:panelGrid>
                         <p:outputLabel for="ser" value="Servicio: " />
-                        <p:selectOneMenu id="ser" value="#{hallazgoUI.ctoServicioSelected}" label="s">
+                        <p:selectOneMenu id="ser" value="#{hallazgoUI.ctoServicioSelected}" label="s" filter="true" filterMatchMode="contains">
+                            <p:ajax update="datos"/>
+                            <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                            
                             <f:selectItems value="#{hallazgoUI.listaCtoServicios}" var="servicio" itemValue="#{servicio.idCtoServicio}" itemLabel="#{servicio.servicio}"/>
                         </p:selectOneMenu>
                     </h:panelGrid>
                 </p:column>
-                <p:commandButton  value="Consultar hallazgo por servicio" update="datos"/>
 
                 <p:dataTable id="datos" value="#{hallazgoUI.listaHallazgoByIdServicio}" var="hallazgo"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

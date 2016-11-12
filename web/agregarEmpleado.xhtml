@@ -59,7 +59,7 @@ and open the template in the editor.
 
 
                                 <p:outputLabel value="Servicio"/>
-                                <p:selectOneMenu id="servicio" value="#{empleadoUI.empleadoHelper.fkIdCtoServicio}" label="Text 3">
+                                <p:selectOneMenu id="servicio" value="#{empleadoUI.empleadoHelper.fkIdCtoServicio}" label="Text 3" filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Sin Servicio"/>
                                     <f:selectItems value="#{empleadoUI.listCtoServicio}" var="ctoServicio" itemValue="#{ctoServicio.idCtoServicio}" itemLabel="#{ctoServicio.servicio}"/>
                                 </p:selectOneMenu>

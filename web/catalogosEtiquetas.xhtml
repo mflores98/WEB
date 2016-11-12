@@ -50,7 +50,7 @@ and open the template in the editor.
 
                                     <p:outputLabel for="servicio" value="Servicio: "></p:outputLabel>
                                     <p:selectOneMenu id="servicio" value="#{etiquetasUI.etiquetaHelper.servicioIDint}" label="Servicios"
-                                                     filter="true" filterMatchMode="contains" required="true"
+                                                     filter="true" filterMatchMode="contains"
                                                      >
                                         <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
                                         <f:selectItems value="#{etiquetasUI.listaServicio}" var="serv" itemValue="#{serv.idCtoServicio}"
