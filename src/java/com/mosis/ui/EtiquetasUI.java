@@ -24,67 +24,68 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class EtiquetasUI implements Serializable {
-
+    
     private EtiquetaHelper etiquetaHelper;
-
+    
     private boolean btnRegistrar;
     private boolean btnModificar;
     private boolean btnEliminar;
     private boolean btnCancelar;
-
+    
     public EtiquetasUI() {
         etiquetaHelper = new EtiquetaHelper();
-
+        
         btnRegistrar = false;
         btnModificar = true;
         btnEliminar = true;
         btnCancelar = true;
-
+        
     }
-
+    
     public EtiquetaHelper getEtiquetaHelper() {
         return etiquetaHelper;
     }
-
+    
     public void setEtiquetaHelper(EtiquetaHelper etiquetaHelper) {
         this.etiquetaHelper = etiquetaHelper;
     }
-
+    
     public List<CtoServicio> getListaServicio() {
         return ServiceFacadeLocator.getInstanceServicio().getListCtoServicios();
     }
-
+    
     public List<Etiquetas> getListEtiquetas() {
         return ServiceFacadeLocator.getInstanceEtiquetas().getAllEtiquetas();
     }
-
+    
     public void stateChange(AjaxBehavior behavior) {
         btnRegistrar = true;
         btnModificar = false;
         btnEliminar = false;
         btnCancelar = false;
         if (etiquetaHelper.getCurrentEtiqueta().getFkCtoServicio() != null) {
-
+            
             System.err.println("Entre a metodo");
             //de etiqueta seleccionada obtengo el servicio
-            etiquetaHelper.setServicioSelected(etiquetaHelper.getCurrentEtiqueta().getFkCtoServicio());
+//            etiquetaHelper.setServicioSelected(etiquetaHelper.getCurrentEtiqueta().getFkCtoServicio());
+            etiquetaHelper.setServicioIDint(etiquetaHelper.getCurrentEtiqueta().getFkCtoServicio().getIdCtoServicio());
             //y usuario
             etiquetaHelper.setUsuarioActual(etiquetaHelper.getCurrentEtiqueta().getFkIdUsuarioModifico());
         }
     }
-
+    
     public void modificarEtiqueta() {
         btnRegistrar = false;
         btnModificar = true;
         btnEliminar = true;
         btnCancelar = true;
-
+        
         etiquetaHelper.modificarEtiqueta();
-
+        
         this.etiquetaHelper.setCurrentEtiqueta(new Etiquetas());
-
+        
     }
-
+    
     public void registrar() {
         btnRegistrar = false;
         btnModificar = true;
@@ -92,17 +93,17 @@ public class EtiquetasUI implements Serializable {
         btnCancelar = true;
         try {
             etiquetaHelper.registrarEtiqueta();
-
+            
             this.etiquetaHelper.setCurrentEtiqueta(new Etiquetas());
-
+            
         } catch (Exception ex) {
             addMessage("Ocurrio un problema", "");
         }
-
+        
     }
-
+    
     public void eliminar() {
-
+        
         btnRegistrar = false;
         btnModificar = true;
         btnEliminar = true;
@@ -115,9 +116,9 @@ public class EtiquetasUI implements Serializable {
         } else {
             addMessage("No se elimino", "");
         }
-
+        
     }
-
+    
     public void cancelar() {
         btnRegistrar = false;
         btnModificar = true;

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>TagsTareas</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <div class="Container100">
+
+
+            <h:form id="form">
+                <p:column headerText="select">
+                    <h:panelGrid>
+                        <p:selectOneMenu id="ser" value="#{tareaUI.tareaHelper.servicioSelet}" required="true" label="s" filter="true" filterMatchMode="contains">
+                            <p:ajax update="etis, :formEhf:ehf"/>
+                            <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
+                            <f:selectItems value="#{tareaUI.listServicios}" var="servicio" itemValue="#{servicio.idCtoServicio}" itemLabel="#{servicio.servicio}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </p:column>
+
+
+                <p:dataTable id="etis" value="#{tareaUI.listEtiquetasByIdServicio}" var="eti"
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true"
+                             selectionMode="single" selection="#{tareaUI.tareaHelper.etiqueta}" rowKey="#{eti.idEtiqueta}"
+                             >
+                    <f:facet name="header">
+                        Etiquetas filtradas por servicio
+                    </f:facet>
+                    <p:ajax event="rowSelect" process="@this" update=":tagForm" listener="#{tareaUI.selecciontag(behavior)}"/>
+
+                    <p:column headerText="latitud" sortBy="#{eti.latitud}" footerText="Id">
+                        <h:outputText value="#{eti.latitud}" />
+                    </p:column>
+                    <p:column headerText="longitud" sortBy="#{eti.longitud}" footerText="Year">
+                        <h:outputText value="#{eti.longitud}" />
+                    </p:column>
+                    <p:column headerText="nombre" sortBy="#{eti.nombre}" footerText="Brand">
+                        <h:outputText value="#{eti.nombre}" />
+                    </p:column>
+                    <p:column headerText="valorTad" sortBy="#{eti.valorTag}" footerText="Brand">
+                        <h:outputText value="#{eti.valorTag}" />
+                    </p:column>     
+                </p:dataTable>
+            </h:form>
+
+
+
+            <div class="ShadowBox TexAlCenter whiteback BlueBorderedBox">
+                <h1 class="BigTopic">Etiquetas</h1>
+                <span class="gray">Asignar Tareas a Etiquetas</span>
+            </div>
+            <div class="ShadowBox whiteback RedBorderedBox ui-fluid">
+                <div class="Container100 Responsive100">
+                    <div class="ContainerIndent">
+                        <h:form id="tagForm">
+                            <p:messages id="msgs" />
+                            <h:panelGrid   columns="2">
+                                <h:outputText value="Pregunta" />
+                                <p:inputText  label="Pregunta" value="#{tareaUI.tareaHelper.pregunta}"  required="true" title="Pregunta">
+                                    <f:validateLength minimum="2" />
+                                </p:inputText>
+                                <p:outputLabel value="Acciones: "/>
+
+                                <p:selectOneMenu id="cta" value="#{tareaUI.tareaHelper.ctoAccionSelected}" label="ctoAcciones">
+                                    <f:selectItems value="#{tareaUI.listaAcciones}" var="cta" itemValue="#{cta.idAccion}" itemLabel="#{cta.accion}"></f:selectItems>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Turnos "/>
+                                <p:selectOneMenu id="ctt" value="#{tareaUI.tareaHelper.turnoSelected}" label="ctTurnos">
+                                    <f:selectItems value="#{tareaUI.listaTurnos}" var="turno" itemValue="#{turno.idTurno}" itemLabel="#{turno.turno}"></f:selectItems>
+                                </p:selectOneMenu>
+                                <p:commandButton id="c2" value="GuardarPreguntaTarea" actionListener="#{tareaUI.asignarTareaATag()}" update=":formEhf"/>
+                            </h:panelGrid>
+
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <h:form id="formEhf">
+                <p:dataTable id="ehf" value="#{tareaUI.listaEtiquetaHasFlujosListaByServicio}" var="et"
+
+
+                             >
+                    <f:facet name="header">
+                        Etiquetas por servicio
+                    </f:facet>
+
+                    <p:ajax event="rowSelect" process="@this" update=":tagForm" listener="#{tareaUI.seleccionEhf(behavior)}"/>
+
+                    <p:column headerText="idEtiqueta" sortBy="#{et.fkIdEtiqueta.idEtiqueta}" footerText="Id">
+                        <h:outputText value="#{et.fkIdEtiqueta.idEtiqueta}" />
+                    </p:column>
+                    <p:column headerText="nombre" sortBy="#{et.fkIdEtiqueta.nombre}" footerText="Year">
+                        <h:outputText value="#{et.fkIdEtiqueta.nombre}" />
+                    </p:column>
+                    <p:column headerText="valorTad" sortBy="#{et.fkIdEtiqueta.valorTag}" footerText="Brand">
+                        <h:outputText value="#{et.fkIdEtiqueta.valorTag}" />
+                    </p:column>     
+                    <p:column headerText="Pregunta" sortBy="#{et.fkIdFlujo.fkIdPregunta.pregunta}" footerText="Brand">
+                        <h:outputText value="#{et.fkIdFlujo.fkIdPregunta.pregunta}" />
+                    </p:column>     
+                    
+                </p:dataTable>
+
+            </h:form>
+
+
+
+        </div>
+    </h:body>
+</html>

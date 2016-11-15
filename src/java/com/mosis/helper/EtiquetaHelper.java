@@ -16,7 +16,7 @@ import javax.servlet.http.Part;
 public class EtiquetaHelper implements Serializable {
 
     private Etiquetas currentEtiqueta;
-    private CtoServicio servicioSelected;
+//    private CtoServicio servicioSelected;
     private Usuarios usuarioActual;
     private int servicioIDint;
 
@@ -27,7 +27,7 @@ public class EtiquetaHelper implements Serializable {
 
     public EtiquetaHelper() {
         currentEtiqueta = new Etiquetas();
-        servicioSelected = new CtoServicio();
+//        servicioSelected = new CtoServicio();
 //        usuarioActual = new Usuarios();
 //        login = new UsuarioUILogin();
     }
@@ -43,14 +43,14 @@ public class EtiquetaHelper implements Serializable {
     public void setCurrentEtiqueta(Etiquetas currentEtiqueta) {
         this.currentEtiqueta = currentEtiqueta;
     }
-
-    public CtoServicio getServicioSelected() {
-        return servicioSelected;
-    }
-
-    public void setServicioSelected(CtoServicio servicioSelected) {
-        this.servicioSelected = servicioSelected;
-    }
+//
+//    public CtoServicio getServicioSelected() {
+//        return servicioSelected;
+//    }
+//
+//    public void setServicioSelected(CtoServicio servicioSelected) {
+//        this.servicioSelected = servicioSelected;
+//    }
 
     public Usuarios getUsuarioActual() {
         return usuarioActual;

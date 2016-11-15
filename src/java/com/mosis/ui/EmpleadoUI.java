@@ -92,9 +92,16 @@ public class EmpleadoUI implements Serializable {
         btnEliminar = false;
         btnCancelar = false;
 
-        if (empleado != null) {
+        if (empleado.getFkIdCtoServicio() != null) {
             System.err.println("Entre");
             empleadoHelper.setCurrentEmpleado(empleado);
+            empleadoHelper.setTe(empleado.getFkIdTipoEmpleado().getIdTipoEmpleado());
+            empleadoHelper.setFkIdCtoServicio(empleado.getFkIdCtoServicio().getIdCtoServicio());
+        } else {
+            //empleado no tiene servicio
+            empleadoHelper.setCurrentEmpleado(empleado);
+            empleadoHelper.setTe(empleado.getFkIdTipoEmpleado().getIdTipoEmpleado());
+            empleadoHelper.setFkIdCtoServicio(0);
 
         }
 
