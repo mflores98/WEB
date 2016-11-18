@@ -94,11 +94,7 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                <h:form enctype="multipart/form-data">
-                    <h:inputFile value="#{etiquetasUI.etiquetaHelper.image}"/><br/>
-                    <h:commandButton value="Upload File" action="#{etiquetasUI.etiquetaHelper.doUpload()}"/>
-                </h:form>
-
+              
                 <h:form id="formtab">
                     <p:dataTable id="dca" var="etis" value="#{etiquetasUI.listEtiquetas}" selectionMode="single" selection="#{etiquetasUI.etiquetaHelper.currentEtiqueta}" rowKey="#{etis.idEtiqueta}" 
                                  rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -111,12 +107,11 @@ and open the template in the editor.
                         <p:column headerText="Id" sortBy="#{etis.idEtiqueta}" footerText="Id">
                             <h:outputText value="#{etis.idEtiqueta}" />
                         </p:column>
-                        <p:column headerText="Nombre" sortBy="#{etis.nombre}" footerText="nombre">
-                            <h:outputText value="#{etis.nombre}" />
-                        </p:column>
-
                         <p:column headerText="valorTag" sortBy="#{etis.valorTag}" footerText="valorTag">
                             <h:outputText value="#{etis.valorTag}" />
+                        </p:column>
+                        <p:column headerText="Nombre" sortBy="#{etis.nombre}" footerText="nombre">
+                            <h:outputText value="#{etis.nombre}" />
                         </p:column>
                         <p:column headerText="latitud" sortBy="#{etis.latitud}" footerText="latitud">
                             <h:outputText value="#{etis.latitud}" />

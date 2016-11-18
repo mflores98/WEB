@@ -20,7 +20,8 @@ and open the template in the editor.
 
             <h:form id="form">
                 <p:column headerText="select">
-                    <h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Servicios"/>
                         <p:selectOneMenu id="ser" value="#{tareaUI.tareaHelper.servicioSelet}" required="true" label="s" filter="true" filterMatchMode="contains">
                             <p:ajax update="etis, :formEhf:ehf"/>
                             <f:selectItem itemLabel="Seleccione" noSelectionOption="true"/>
@@ -32,14 +33,16 @@ and open the template in the editor.
 
                 <p:dataTable id="etis" value="#{tareaUI.listEtiquetasByIdServicio}" var="eti"
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true"
+                             rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true" 
                              selectionMode="single" selection="#{tareaUI.tareaHelper.etiqueta}" rowKey="#{eti.idEtiqueta}"
                              >
                     <f:facet name="header">
                         Etiquetas filtradas por servicio
                     </f:facet>
                     <p:ajax event="rowSelect" process="@this" update=":tagForm" listener="#{tareaUI.selecciontag(behavior)}"/>
-
+                    <p:column headerText="IdEtiqueta" sortBy="#{eti.idEtiqueta}" footerText="Id">
+                        <h:outputText value="#{eti.idEtiqueta}" />
+                    </p:column>
                     <p:column headerText="latitud" sortBy="#{eti.latitud}" footerText="Id">
                         <h:outputText value="#{eti.latitud}" />
                     </p:column>
@@ -55,8 +58,6 @@ and open the template in the editor.
                 </p:dataTable>
             </h:form>
 
-
-
             <div class="ShadowBox TexAlCenter whiteback BlueBorderedBox">
                 <h1 class="BigTopic">Etiquetas</h1>
                 <span class="gray">Asignar Tareas a Etiquetas</span>
@@ -65,41 +66,43 @@ and open the template in the editor.
                 <div class="Container100 Responsive100">
                     <div class="ContainerIndent">
                         <h:form id="tagForm">
-                            <p:messages id="msgs" />
-                            <h:panelGrid   columns="2">
+                            <p:messages id="msgs" showDetail="true" autoUpdate="true" for="campoPregunta"/>
+                            <h:panelGrid   columns="2" id="pgP">
                                 <h:outputText value="Pregunta" />
-                                <p:inputText  label="Pregunta" value="#{tareaUI.tareaHelper.pregunta}"  required="true" title="Pregunta">
+                                <p:inputText id="campoPregunta" label="Pregunta" value="#{tareaUI.tareaHelper.pregunta}"  required="true" title="Pregunta" requiredMessage="Se requiere un valor!">
                                     <f:validateLength minimum="2" />
                                 </p:inputText>
                                 <p:outputLabel value="Acciones: "/>
-
                                 <p:selectOneMenu id="cta" value="#{tareaUI.tareaHelper.ctoAccionSelected}" label="ctoAcciones">
                                     <f:selectItems value="#{tareaUI.listaAcciones}" var="cta" itemValue="#{cta.idAccion}" itemLabel="#{cta.accion}"></f:selectItems>
                                 </p:selectOneMenu>
-
                                 <p:outputLabel value="Turnos "/>
                                 <p:selectOneMenu id="ctt" value="#{tareaUI.tareaHelper.turnoSelected}" label="ctTurnos">
                                     <f:selectItems value="#{tareaUI.listaTurnos}" var="turno" itemValue="#{turno.idTurno}" itemLabel="#{turno.turno}"></f:selectItems>
                                 </p:selectOneMenu>
-                                <p:commandButton id="c2" value="GuardarPreguntaTarea" actionListener="#{tareaUI.asignarTareaATag()}" update=":formEhf"/>
+                                <p:commandButton id="c2" value="GuardarPreguntaTarea" actionListener="#{tareaUI.asignarTareaATag()}" 
+                                                 update=":formEhf, pgP, msgs">
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
                             </h:panelGrid>
+                        </h:form>               </div>           </div>         </div>
 
-                        </h:form>
-                    </div>
-                </div>
-            </div>
+
 
             <h:form id="formEhf">
                 <p:dataTable id="ehf" value="#{tareaUI.listaEtiquetaHasFlujosListaByServicio}" var="et"
-
-
+                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true" selection="#{tareaUI.etiquetaHasFlujos}" rowKey="#{tareaUI.etiquetaHasFlujos.fkIdEtiqueta.idEtiqueta}"
                              >
+
+                    <p:ajax event="rowSelect" process="@this" update=":tagForm" listener="#{tareaUI.seleccionEhf(behavior)}"/>
                     <f:facet name="header">
                         Etiquetas por servicio
                     </f:facet>
-
-                    <p:ajax event="rowSelect" process="@this" update=":tagForm" listener="#{tareaUI.seleccionEhf(behavior)}"/>
-
                     <p:column headerText="idEtiqueta" sortBy="#{et.fkIdEtiqueta.idEtiqueta}" footerText="Id">
                         <h:outputText value="#{et.fkIdEtiqueta.idEtiqueta}" />
                     </p:column>
@@ -112,13 +115,14 @@ and open the template in the editor.
                     <p:column headerText="Pregunta" sortBy="#{et.fkIdFlujo.fkIdPregunta.pregunta}" footerText="Brand">
                         <h:outputText value="#{et.fkIdFlujo.fkIdPregunta.pregunta}" />
                     </p:column>     
-                    
+                    <p:column headerText="Accion" sortBy="#{et.fkIdFlujo.fkIdAccion.accion}" footerText="Accion">
+                        <h:outputText value="#{et.fkIdFlujo.fkIdAccion.accion}" />
+                    </p:column>     
+                    <p:column headerText="Turno" sortBy="#{et.fkIdFlujo.fkIdTurno}" footerText="Turno">
+                        <h:outputText value="#{et.fkIdFlujo.fkIdTurno}" />
+                    </p:column>
                 </p:dataTable>
-
             </h:form>
-
-
-
         </div>
     </h:body>
 </html>

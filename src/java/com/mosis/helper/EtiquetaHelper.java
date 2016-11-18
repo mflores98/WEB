@@ -6,12 +6,10 @@
 package com.mosis.helper;
 
 import com.mosis.business.integration.ServiceFacadeLocator;
-import com.mosis.entity.CtoServicio;
 import com.mosis.entity.Etiquetas;
 import com.mosis.entity.Usuarios;
 import java.io.Serializable;
 import java.util.List;
-import javax.servlet.http.Part;
 
 public class EtiquetaHelper implements Serializable {
 
@@ -20,11 +18,7 @@ public class EtiquetaHelper implements Serializable {
     private Usuarios usuarioActual;
     private int servicioIDint;
 
-    private Part image;
-    private boolean upladed;
-
     ////////////
-
     public EtiquetaHelper() {
         currentEtiqueta = new Etiquetas();
 //        servicioSelected = new CtoServicio();
@@ -56,9 +50,7 @@ public class EtiquetaHelper implements Serializable {
         return usuarioActual;
     }
 
-    public List<CtoServicio> getLsitaSer() {
-        return ServiceFacadeLocator.getInstanceServicio().getListCtoServicios();
-    }
+    
 
     public void setUsuarioActual(Usuarios usuarioActual) {
         this.usuarioActual = usuarioActual;
@@ -131,22 +123,6 @@ public byte[] doUpload() {
 
     public void setServicioIDint(int servicioIDint) {
         this.servicioIDint = servicioIDint;
-    }
-
-    public Part getImage() {
-        return image;
-    }
-
-    public void setImage(Part image) {
-        this.image = image;
-    }
-
-    public boolean isUpladed() {
-        return upladed;
-    }
-
-    public void setUpladed(boolean upladed) {
-        this.upladed = upladed;
     }
 
 }

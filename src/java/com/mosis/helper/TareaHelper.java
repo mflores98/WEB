@@ -6,6 +6,7 @@
 package com.mosis.helper;
 
 import com.mosis.business.integration.ServiceFacadeLocator;
+import com.mosis.entity.EtiquetaHasFlujos;
 import com.mosis.entity.Etiquetas;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -25,15 +26,23 @@ public class TareaHelper implements Serializable {
     private int servicioSelet;
 
     private Etiquetas etiqueta;
+    private EtiquetaHasFlujos etiquetaHasFlujos;
 
     public TareaHelper() {
         etiqueta = new Etiquetas();
     }
 
-    public void tareaATag() throws Exception {
+    public void registrarTareaATag() throws Exception {
         ServiceFacadeLocator.getInstanceFlujos().registrarTareaATag(etiqueta.getIdEtiqueta(), ctoAccionSelected, turnoSelected, pregunta);
     }
 
+    public void editarTareaAtag() {
+        try {
+            //ServiceFacadeLocator.getInstanceFlujos().modificar(turnoSelected, turnoSelected, etiquetaSelect, ctoAccionSelected, turnoSelected, pregunta);
+        } catch (Exception ex) {
+            Logger.getLogger(TareaHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public String getPregunta() {
         return pregunta;
@@ -81,6 +90,14 @@ public class TareaHelper implements Serializable {
 
     public void setServicioSelet(int servicioSelet) {
         this.servicioSelet = servicioSelet;
+    }
+
+    public EtiquetaHasFlujos getEtiquetaHasFlujos() {
+        return etiquetaHasFlujos;
+    }
+
+    public void setEtiquetaHasFlujos(EtiquetaHasFlujos etiquetaHasFlujos) {
+        this.etiquetaHasFlujos = etiquetaHasFlujos;
     }
 
 }
