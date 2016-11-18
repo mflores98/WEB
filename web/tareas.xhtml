@@ -43,16 +43,16 @@ and open the template in the editor.
                     <p:column headerText="IdEtiqueta" sortBy="#{eti.idEtiqueta}" footerText="Id">
                         <h:outputText value="#{eti.idEtiqueta}" />
                     </p:column>
-                    <p:column headerText="latitud" sortBy="#{eti.latitud}" footerText="Id">
+                    <p:column headerText="latitud" sortBy="#{eti.latitud}" footerText="Latitud">
                         <h:outputText value="#{eti.latitud}" />
                     </p:column>
-                    <p:column headerText="longitud" sortBy="#{eti.longitud}" footerText="Year">
+                    <p:column headerText="longitud" sortBy="#{eti.longitud}" footerText="Longitud">
                         <h:outputText value="#{eti.longitud}" />
                     </p:column>
-                    <p:column headerText="nombre" sortBy="#{eti.nombre}" footerText="Brand">
+                    <p:column headerText="nombre" sortBy="#{eti.nombre}" footerText="Nombre">
                         <h:outputText value="#{eti.nombre}" />
                     </p:column>
-                    <p:column headerText="valorTad" sortBy="#{eti.valorTag}" footerText="Brand">
+                    <p:column headerText="valorTad" sortBy="#{eti.valorTag}" footerText="ValorTag">
                         <h:outputText value="#{eti.valorTag}" />
                     </p:column>     
                 </p:dataTable>
@@ -98,21 +98,20 @@ and open the template in the editor.
                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true" selection="#{tareaUI.etiquetaHasFlujos}" rowKey="#{tareaUI.etiquetaHasFlujos.fkIdEtiqueta.idEtiqueta}"
                              >
-
                     <p:ajax event="rowSelect" process="@this" update=":tagForm" listener="#{tareaUI.seleccionEhf(behavior)}"/>
                     <f:facet name="header">
                         Etiquetas por servicio
                     </f:facet>
-                    <p:column headerText="idEtiqueta" sortBy="#{et.fkIdEtiqueta.idEtiqueta}" footerText="Id">
+                    <p:column headerText="idEtiqueta" sortBy="#{et.fkIdEtiqueta.idEtiqueta}" footerText="IdEtiqueta">
                         <h:outputText value="#{et.fkIdEtiqueta.idEtiqueta}" />
                     </p:column>
-                    <p:column headerText="nombre" sortBy="#{et.fkIdEtiqueta.nombre}" footerText="Year">
+                    <p:column headerText="nombre" sortBy="#{et.fkIdEtiqueta.nombre}" footerText="Nombre">
                         <h:outputText value="#{et.fkIdEtiqueta.nombre}" />
                     </p:column>
-                    <p:column headerText="valorTad" sortBy="#{et.fkIdEtiqueta.valorTag}" footerText="Brand">
+                    <p:column headerText="valorTag" sortBy="#{et.fkIdEtiqueta.valorTag}" footerText="ValorTag">
                         <h:outputText value="#{et.fkIdEtiqueta.valorTag}" />
                     </p:column>     
-                    <p:column headerText="Pregunta" sortBy="#{et.fkIdFlujo.fkIdPregunta.pregunta}" footerText="Brand">
+                    <p:column headerText="Pregunta" sortBy="#{et.fkIdFlujo.fkIdPregunta.pregunta}" footerText="Pregunta">
                         <h:outputText value="#{et.fkIdFlujo.fkIdPregunta.pregunta}" />
                     </p:column>     
                     <p:column headerText="Accion" sortBy="#{et.fkIdFlujo.fkIdAccion.accion}" footerText="Accion">
